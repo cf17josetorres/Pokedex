@@ -30,18 +30,30 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
     protected String results = "";
     protected ArrayList<String> strTypes; // Create an ArrayList object
     protected String pokSearch;
+    public int primerpoke;
+    JSONObject jObject = null;
+    String img = "";
+    String typeName = "";
+    String typeObj="";
 
-    public fetchData(String pokSearch) {
+    public fetchData(String pokSearch, int primerpoke) {
         this.pokSearch = pokSearch;
+        this.primerpoke = primerpoke;
         strTypes = new ArrayList<String>();
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
+            URL url = null;
             //Make API connection
-            URL url = new URL("https://pokeapi.co/api/v2/pokemon/" + pokSearch);
-            Log.i("logtest", "https://pokeapi.co/api/v2/pokemon/" + pokSearch);
+            if (primerpoke == 0){
+                url = new URL("https://pokeapi.co/api/v2/pokemon/" + pokSearch);
+                Log.i("Aquí encuentras","a los pokemon"+ pokSearch);
+            } else if (primerpoke == 1) {
+                url = new URL("https://pokeapi.co/api/v2/pokemon/)" + pokSearch);
+                Log.i("logtest", "https://pokeapi.co/api/v2/pokemon/" + pokSearch);
+            }
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
@@ -68,41 +80,54 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid){
-        JSONObject jObject = null;
-        String img = "";
-        String typeName = "";
-        String typeObj="";
+        if (primerpoke == 0) {
+            try {
+                jObject = new JSONObject(data);
 
-        try {
-            jObject = new JSONObject(data);
-
-            // Get JSON name, height, weight
-            results += "Name: " + jObject.getString("name").toUpperCase() + "\n" +
+                // Get JSON name, height, weight
+                results += "Name: " + jObject.getString("name").toUpperCase() + "\n" +
                         "Height: " + jObject.getString("height") + "\n" +
-                        "Weight: " + jObject.getString("weight");
+                        "Weight: " + jObject.getString("weight") + "\n" +
+                        "ID: " + jObject.getString("id") + "\n" +
+                        "Base: " + jObject.getString("base_experience");
 
-            // Get img SVG
-            JSONObject sprites = new JSONObject(jObject.getString("sprites"));
-            JSONObject other = new JSONObject(sprites.getString("other"));
-            JSONObject dream_world = new JSONObject(other.getString("dream_world"));
-            img  = dream_world.getString("front_default");
+                // Get img SVG
+                JSONObject sprites = new JSONObject(jObject.getString("sprites"));
+                JSONObject other = new JSONObject(sprites.getString("other"));
+                JSONObject dream_world = new JSONObject(other.getString("dream_world"));
+                img  = dream_world.getString("front_default");
 
-            // Get type/types
-            JSONArray types = new JSONArray(jObject.getString("types"));
-            for(int i=0; i<types.length(); i++){
-                JSONObject type = new JSONObject(types.getString(i));
-                JSONObject type2  = new JSONObject(type.getString("type"));
-                strTypes.add(type2.getString("name"));
+                // Get type/types
+                JSONArray types = new JSONArray(jObject.getString("types"));
+                for(int i=0; i<types.length(); i++){
+                    JSONObject type = new JSONObject(types.getString(i));
+                    JSONObject type2  = new JSONObject(type.getString("type"));
+                    strTypes.add(type2.getString("name"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+            // Set info
+            MainActivity.txtDisplay.setText(this.results);
+
+        } else if (primerpoke == 1) {
+            try {
+                jObject = new JSONObject(data);
+                // Get type/types
+                JSONArray types = new JSONArray(jObject.getString("types"));
+                for(int i=0; i<types.length(); i++){
+                    JSONObject type = new JSONObject(types.getString(i));
+                    JSONObject type2  = new JSONObject(type.getString("type"));
+                    strTypes.add(type2.getString("name"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            // Set info
+            MainActivity.txtDisplay.setText(this.results);
         }
 
-
-        // Set info
-        MainActivity.txtDisplay.setText(this.results);
-
-//        // Set main img
+        //        // Set main img
         SvgLoader.pluck()
                 .with(MainActivity.act)
                 .load(img, MainActivity.imgPok);
