@@ -49,7 +49,7 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
             //Make API connection
             if (primerpoke == 0){
                 url = new URL("https://pokeapi.co/api/v2/pokemon/" + pokSearch);
-                Log.i("Aquí encuentras","a los pokemon"+ pokSearch);
+                Log.i("Aquí encuentras","a los pokemon "+ pokSearch);
             } else if (primerpoke == 1) {
                 url = new URL("https://pokeapi.co/api/v2/pokemon/)" + pokSearch);
                 Log.i("logtest", "https://pokeapi.co/api/v2/pokemon/" + pokSearch);

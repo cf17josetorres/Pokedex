@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -15,6 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 import org.w3c.dom.Text;
 
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int iteradordepoke = 0;
     public int primerpoke = 0;
     public int elijepoke;
+    TextView tBotonVideo;
+    VideoView video;
 
     public static ImageView [] imgType;
 
@@ -47,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgType[1] = findViewById(R.id.imgType1);
         derecha = findViewById(R.id.btnRight);
         izquierda = findViewById(R.id.btnLeft);
+        tBotonVideo = findViewById(R.id.tVideo);
 
         iterador = 1;
         String pokSearch = String.valueOf(iterador);
@@ -63,6 +71,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageButton btnTypes = findViewById(R.id.btnTypes);
         btnTypes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Selecciona un tipo de Pokemon");
+                builder.setMessage("Haz elegido ese tipo de pokemon?");
+                builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        Toast.makeText(getContext(), "Haz seleccionado el pokemon", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -104,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnmusica2.setOnClickListener(this);
         btnmusica3 = (Button)findViewById(R.id.btnmusica3);
         btnmusica3.setOnClickListener(this);
+        tBotonVideo.setOnClickListener(this);
     }
 
     public void showTxtSearch(){
@@ -119,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 primerpoke = 0;
                 String pokSearch = input.getText().toString();
                 fetchData process = new fetchData(pokSearch,primerpoke);
-                iterador = Integer.parseInt(pokSearch);
                 process.execute();
             }
         });
@@ -131,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         alert.show();
     }
-
 
     @Override
     public void onClick(View v) {
@@ -149,6 +174,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnmusica3:
                 mPlayer = MediaPlayer.create(this, R.raw.angelesfuimos);
                 break;
+            case R.id.tVideo:
+                video.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.promo));
+                videoo();
+                break;
         }
         mPlayer.seekTo(0);
         mPlayer.start();
@@ -160,5 +189,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(mPlayer != null) {
             mPlayer.release();
         }
+    }
+
+    public static Context getContext() {
+        return getContext();
+    }
+
+    public void videoo(){
+        Intent videoActivity = new Intent(getApplicationContext(), VideoActivity.class);
+        startActivity(videoActivity);
     }
 }
