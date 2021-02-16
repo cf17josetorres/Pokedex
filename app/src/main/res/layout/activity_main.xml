@@ -23,6 +23,14 @@
         android:layout_marginTop="75dp"
         tools:ignore="MissingConstraints" />
 
+    <!-- <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="1"
+        tools:ignore="MissingConstraints" /> -->
+
     <Button
         android:id="@+id/btnmusica"
         android:layout_width="wrap_content"

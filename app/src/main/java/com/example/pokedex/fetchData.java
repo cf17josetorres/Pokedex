@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
+import static com.example.pokedex.MainActivity.todospoke;
 
 public class fetchData extends AsyncTask<Void, Void, Void> {
 
@@ -35,6 +36,10 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
     String img = "";
     String typeName = "";
     String typeObj="";
+
+    public fetchData(String typeName) {
+        this.typeName = typeName;
+    }
 
     public fetchData(String pokSearch, int primerpoke) {
         this.pokSearch = pokSearch;
@@ -108,39 +113,53 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
                 e.printStackTrace();
             }
             // Set info
+            imagenespoke(primerpoke);
             MainActivity.txtDisplay.setText(this.results);
-
         } else if (primerpoke == 1) {
             try {
                 jObject = new JSONObject(data);
                 // Get type/types
-                JSONArray types = new JSONArray(jObject.getString("types"));
+                JSONArray types = new JSONArray(jObject.getString("pokemon"));
                 for(int i=0; i<types.length(); i++){
                     JSONObject type = new JSONObject(types.getString(i));
-                    JSONObject type2  = new JSONObject(type.getString("type"));
+                    JSONObject type2  = new JSONObject(type.getString("pokemon"));
                     strTypes.add(type2.getString("name"));
                 }
+                todospoke = strTypes.size();
+                Log.i("types:"+primerpoke, ""+strTypes.get(primerpoke));
+                results += String.valueOf(strTypes.get(primerpoke));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             // Set info
+            imagenespoke(primerpoke);
             MainActivity.txtDisplay.setText(this.results);
         }
+    }
 
-        //        // Set main img
-        SvgLoader.pluck()
-                .with(MainActivity.act)
-                .load(img, MainActivity.imgPok);
-
-        // Set img types
-        for(int i=0; i<strTypes.size(); i++){
-            MainActivity.imgType[i].setImageResource(MainActivity.act.getResources().getIdentifier(strTypes.get(i), "drawable", MainActivity.act.getPackageName()));
-            if(strTypes.size()==1){
-                MainActivity.imgType[1].setVisibility(View.INVISIBLE);
-            } else {
-                MainActivity.imgType[1].setVisibility(View.INVISIBLE);
+    public void imagenespoke(int primerpoke) {
+        if (primerpoke == 0) {
+            //        // Set main img
+            SvgLoader.pluck()
+                    .with(MainActivity.act)
+                    .load(img, MainActivity.imgPok);
+            // Set img types
+            for(int i=0; i<strTypes.size(); i++){
+                MainActivity.imgType[i].setImageResource(MainActivity.act.getResources().getIdentifier(strTypes.get(i), "drawable", MainActivity.act.getPackageName()));
             }
-        }
-
+        } else if (primerpoke == 1) {
+            //        // Set main img
+            SvgLoader.pluck()
+                    .with(MainActivity.act)
+                    .load(img, MainActivity.imgPok);
+            // Set img types
+            MainActivity.imgType[0].setImageResource(MainActivity.act.getResources().getIdentifier(strTypes.get(0), "drawable", MainActivity.act.getPackageName()));
+            MainActivity.imgType[1].setImageResource(MainActivity.act.getResources().getIdentifier(strTypes.get(1), "drawable", MainActivity.act.getPackageName()));
+            /*if(strTypes.size()==1){
+                    MainActivity.imgType[0].setImageResource(MainActivity.act.getResources().getIdentifier(strTypes.get(0), "drawable", MainActivity.act.getPackageName()));
+                } else {
+                     MainActivity.imgType[1].setImageResource(MainActivity.act.getResources().getIdentifier(strTypes.get(1), "drawable", MainActivity.act.getPackageName()));
+                }*/
+            }
     }
 }

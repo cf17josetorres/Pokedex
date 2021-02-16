@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pokemon_types">types_pokemon
+        <item>bug</item>
+        <item>dark</item>
+        <item>dragon</item>
+        <item>electric</item>
+        <item>fairy</item>
+        <item>fighting</item>
+        <item>fire</item>
+        <item>flying</item>
+        <item>ghost</item>
+        <item>grass</item>
+        <item>ground</item>
+        <item>ice</item>
+        <item>normal</item>
+        <item>poison</item>
+        <item>psychic</item>
+        <item>rock</item>
+        <item>steel</item>
+        <item>water</item>
+    </string-array>
+</resources>

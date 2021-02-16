@@ -21,7 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,8 +40,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int iteradordepoke = 0;
     public int primerpoke = 0;
     public int elijepoke;
+    public static int todospoke;
+    public String searchpoke;
+    private String[] typepoke;
     TextView tBotonVideo;
     VideoView video;
+    ///////////////////
+    protected ArrayList<String> strTypes; // Create an ArrayList object
+
+    DatabaseReference databaseReference;
 
     public static ImageView [] imgType;
 
@@ -47,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         act = this;
         imgType = new ImageView[2];
+        typepoke = getResources().getStringArray(R.array.pokemon_types);
 
         txtDisplay = findViewById(R.id.txtDisplay);
         imgPok = findViewById(R.id.imgPok);
@@ -55,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         derecha = findViewById(R.id.btnRight);
         izquierda = findViewById(R.id.btnLeft);
         tBotonVideo = findViewById(R.id.tVideo);
+
+        strTypes = new ArrayList<String>();
+        //databaseReference = FirebaseDatabase.getInstance().getReference().child("String");
 
         iterador = 1;
         String pokSearch = String.valueOf(iterador);
@@ -71,24 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageButton btnTypes = findViewById(R.id.btnTypes);
         btnTypes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Selecciona un tipo de Pokemon");
-                builder.setMessage("Haz elegido ese tipo de pokemon?");
-                builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        Toast.makeText(getContext(), "Haz seleccionado el pokemon", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                showTypeSearch();
             }
         });
 
@@ -156,6 +155,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         alert.show();
+    }
+
+    public void showTypeSearch(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecciona el tipus de pokemon:")
+                .setItems(R.array.pokemon_types, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        int typeName = which + 1;
+                        Log.i("logtest", "" + typeName);
+                        fetchData strTypes = new fetchData("type/" + searchpoke,elijepoke);
+                        strTypes.execute();
+
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
