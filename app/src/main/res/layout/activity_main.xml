@@ -23,12 +23,29 @@
         android:layout_marginTop="75dp"
         tools:ignore="MissingConstraints" />
 
+    <Button
+        android:id="@+id/btnfavorito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FAVORITO"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteX="150dp"
+        tools:ignore="MissingConstraints" />
+
+
     <!-- <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
-        android:stepSize="1"
+        android:stepSize="3"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        tools:layout_editor_absoluteX="180dp"
         tools:ignore="MissingConstraints" /> -->
 
     <Button
@@ -39,8 +56,7 @@
         android:layout_marginStart="150dp"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="15dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="150dp" />
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btnmusica2"

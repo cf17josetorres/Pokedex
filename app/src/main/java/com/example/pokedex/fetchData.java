@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.ahmadrosid.svgloader.SvgLoader;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -30,21 +31,25 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
     protected String data = "";
     protected String results = "";
     protected ArrayList<String> strTypes; // Create an ArrayList object
-    protected String pokSearch;
+    protected String pokSearch, tipo;
     public int primerpoke;
     JSONObject jObject = null;
     String img = "";
     String typeName = "";
     String typeObj="";
 
-    public fetchData(String typeName) {
+    private static FirebaseDatabase firebaseDatabase;
+
+    public fetchData(String typeName, String tipo) {
         this.typeName = typeName;
+        this.tipo = tipo;
     }
 
     public fetchData(String pokSearch, int primerpoke) {
         this.pokSearch = pokSearch;
         this.primerpoke = primerpoke;
         strTypes = new ArrayList<String>();
+//        firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
     @Override

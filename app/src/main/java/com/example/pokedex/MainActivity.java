@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -36,15 +38,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button derecha, izquierda;
     MediaPlayer mPlayer;
     Button btnmusica, btnmusica2, btnmusica3;
+    Button btnfavoritoo;
     public int iterador;
     public int iteradordepoke = 0;
     public int primerpoke = 0;
     public int elijepoke;
     public static int todospoke;
-    public String searchpoke;
+    public String searchpoke, tipo;
     private String[] typepoke;
     TextView tBotonVideo;
     VideoView video;
+    public int busquepok;
+
     ///////////////////
     protected ArrayList<String> strTypes; // Create an ArrayList object
 
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         derecha = findViewById(R.id.btnRight);
         izquierda = findViewById(R.id.btnLeft);
         tBotonVideo = findViewById(R.id.tVideo);
+        btnfavoritoo = findViewById(R.id.btnfavorito);
 
         strTypes = new ArrayList<String>();
         //databaseReference = FirebaseDatabase.getInstance().getReference().child("String");
@@ -88,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnTypes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showTypeSearch();
+                busquepoke(tipo);
             }
         });
 
@@ -98,11 +105,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String pokSearch = String.valueOf(iterador);
                     fetchData process = new fetchData(pokSearch,elijepoke);
                     process.execute();
+                    //databaseReference.setValue(strTypes);
                 } else {
                     iterador++;
                     String pokSearch = String.valueOf(iterador);
                     fetchData process = new fetchData(pokSearch,elijepoke);
                     process.execute();
+                    //databaseReference.setValue(strTypes);
                 }
             }
         });
@@ -113,13 +122,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     iterador = 1118;
                     String pokSearch = String.valueOf(iterador);
                     fetchData process = new fetchData(pokSearch,elijepoke);
+                    //databaseReference.setValue(strTypes);
                     process.execute();
                 } else {
                     iterador--;
                     String pokSearch = String.valueOf(iterador);
                     fetchData process = new fetchData(pokSearch,elijepoke);
+                    //databaseReference.setValue(strTypes);
                     process.execute();
                 }
+            }
+        });
+
+        btnfavoritoo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -164,13 +182,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         int typeName = which + 1;
                         Log.i("logtest", "" + typeName);
-                        fetchData strTypes = new fetchData("type/" + searchpoke,elijepoke);
-                        strTypes.execute();
-
+                        //fetchData strTypes = new fetchData("type/" + searchpoke,elijepoke);
+                        //strTypes.execute();
+                        fetchDataatyp typefetch = new fetchDataatyp(typepoke[typeName]);
+                        typefetch.execute();
                     }
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void busquepoke(String tipo) {
+        try {
+            URL url = null;
+            //Make API connection
+            if (busquepok == 0) {
+                url = new URL("https://pokeapi.co/api/v2/type/" + tipo);
+                Log.i("Aquí encuentras", "los tipos de pokemon " + tipo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
