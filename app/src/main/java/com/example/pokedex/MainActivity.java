@@ -1,5 +1,6 @@
 package com.example.pokedex;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -12,6 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,8 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int busquepok;
 
     ///////////////////
-    protected ArrayList<String> strTypes; // Create an ArrayList object
+    protected ArrayList<Pokemonn> strTypes; // Create an ArrayList object
 
     DatabaseReference databaseReference;
 
@@ -75,8 +81,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tBotonVideo = findViewById(R.id.tVideo);
         btnfavoritoo = findViewById(R.id.btnfavorito);
 
-        strTypes = new ArrayList<String>();
-        //databaseReference = FirebaseDatabase.getInstance().getReference().child("String");
+        strTypes = new ArrayList<Pokemonn>();
+        //databaseReference = FirebaseDatabase.getInstance().getReference().child("Pokemonn");
+
+        /*//Metodo para mostrar y ocultar el menú
+        public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.apartado, menu);
+            return true;
+        }*/
+
+        /*//Metodo para asignar las funciones correspondientes a las opciones
+        public boolean onOptionItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == R.drawable.ic_favorite_white_24dp) {
+                Toast.makeText(this, "Opción 1", Toast.LENGTH_SHORT).show();
+            } else if (id == R.drawable.ic_favorite_border_white_24dp) {
+                Toast.makeText(this, "Opción 1", Toast.LENGTH_SHORT).show();
+            } else if (id == R.drawable.ic_share_white_24dp) {
+                Toast.makeText(this, "Opción 2", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.salir) {
+                Toast.makeText(this, "Opción 3", Toast.LENGTH_SHORT).show();
+            }
+            return super.onOptionsItemSelected(item);
+        }*/
 
         iterador = 1;
         String pokSearch = String.valueOf(iterador);
@@ -134,10 +161,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        /*databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.i("logTest " ,""+dataSnapshot.getChildrenCount());
+                strTypes.clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String strTypes = postSnapshot.getValue(String.class);
+                    //strTypes.add(strTypes);
+                    Log.i("logTest",strTypes);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Failed to read value
+                Log.i("logTest", "Failed to read value.", databaseError.toException());
+            }
+        });*/
+
         btnfavoritoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Pokemonn btnfavorito = new Pokemonn(btnfavoritoo.getText().toString());
+                //strTypes.add(strTypes);
+                //databaseReference.setValue(strTypes);
             }
         });
 
