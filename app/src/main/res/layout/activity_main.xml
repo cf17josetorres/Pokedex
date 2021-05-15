@@ -49,12 +49,23 @@
         tools:ignore="MissingConstraints" /> -->
 
     <Button
+        android:id="@+id/btnverfavoritos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="136dp"
+        android:layout_marginRight="136dp"
+        android:text="VER FAVORITO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
         android:id="@+id/btnmusica"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Poke Rap"
-        android:layout_marginStart="150dp"
-        android:layout_marginLeft="150dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
         android:layout_marginTop="15dp"
         tools:ignore="MissingConstraints" />
 
@@ -87,8 +98,8 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="98dp"
+        android:layout_marginTop="40dp"
         android:scaleType="fitCenter"
-        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

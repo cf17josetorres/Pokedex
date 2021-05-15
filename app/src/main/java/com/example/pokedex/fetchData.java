@@ -33,6 +33,7 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
     protected ArrayList<String> strTypes; // Create an ArrayList object
     protected String pokSearch, tipo;
     public int primerpoke;
+    private Pokemonn poke;
     JSONObject jObject = null;
     String img = "";
     String typeName = "";
@@ -43,15 +44,24 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
     public fetchData(String typeName, String tipo) {
         this.typeName = typeName;
         this.tipo = tipo;
+
     }
 
     public fetchData(String pokSearch, int primerpoke) {
         this.pokSearch = pokSearch;
         this.primerpoke = primerpoke;
+        this.poke = new Pokemonn();
         strTypes = new ArrayList<String>();
 //        firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
+    public Pokemonn getPoke(){
+        return poke;
+    }
+
+    public void setPoke(Pokemonn poke) {
+        this.poke = poke;
+    }
     @Override
     protected Void doInBackground(Void... voids) {
         try {
@@ -101,6 +111,10 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
                         "ID: " + jObject.getString("id") + "\n" +
                         "Base: " + jObject.getString("base_experience");
 
+                setPoke(new Pokemonn(jObject.getString("name"),"https://pokeapi.co/api/v2/pokemon/" + pokSearch));
+                MainActivity.actual = new Pokemonn(jObject.getString("name"),"https://pokeapi.co/api/v2/pokemon/" + pokSearch);
+                Log.e("Poke" , this.poke.getName());
+
                 // Get img SVG
                 JSONObject sprites = new JSONObject(jObject.getString("sprites"));
                 JSONObject other = new JSONObject(sprites.getString("other"));
@@ -130,8 +144,15 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
                     JSONObject type2  = new JSONObject(type.getString("pokemon"));
                     strTypes.add(type2.getString("name"));
                 }
+
+
                 todospoke = strTypes.size();
                 Log.i("types:"+primerpoke, ""+strTypes.get(primerpoke));
+                setPoke(new Pokemonn(jObject.getString("name"),"https://pokeapi.co/api/v2/pokemon/" + pokSearch));
+                MainActivity.actual = new Pokemonn(jObject.getString("name"),"https://pokeapi.co/api/v2/pokemon/" + pokSearch);
+
+                Log.e("Poke" , this.poke.getName());
+
                 results += String.valueOf(strTypes.get(primerpoke));
             } catch (JSONException e) {
                 e.printStackTrace();

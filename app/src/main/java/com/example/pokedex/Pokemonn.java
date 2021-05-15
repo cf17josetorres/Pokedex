@@ -4,14 +4,20 @@ public class Pokemonn {
     public String name;
     public String url;
     public String pokemon;
+    public String s;
 
-    public Pokemonn() {
+    //public Pokemonn(String s) {
+        //this.s = s;
+    //}
+
+    public Pokemonn(){
     }
 
-    public Pokemonn(String name, String url, String pokemon) {
+    public Pokemonn(String name, String url) {
         this.name = name;
         this.url = url;
         this.pokemon = pokemon;
+        this.s = s;
     }
 
     public String getName() {

@@ -24,11 +24,17 @@ public class DetallePokemon extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        //View view = inflater.inflate(R.layout.detalle_pokemon, container, false);
+        //RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.RV);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        //RVAdapter adapter = new RVAdapter(getContext(), IncidenciaDBHelper.listado(sqLiteDatabase));
+        //recyclerView.setAdapter(adapter);
         View view = inflater.inflate(R.layout.detalle_pokemon, container, false);
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.RV);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //RVAdapter adapter = new RVAdapter(getContext(), IncidenciaDBHelper.listado(sqLiteDatabase));
-        //recyclerView.setAdapter(adapter);
+        RVAdapter adapter = new RVAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+
         return view;
     }
 }
